@@ -70,6 +70,59 @@ function onBackKeyDown(e) {
    alert('Back Button is Pressed!'); 
 } 
 
+/*
+Adding battery status featire
+*/
+window.addEventListener("batterystatus", onBatteryStatus, false); 
+function onBatteryStatus(info) { 
+    alert("BATTERY STATUS:  Level: " + info.level + " isPlugged: " + info.isPlugged); 
+ }
+
+ /*
+ Adding camera function
+ Take picture
+ */
+ document.getElementById("cameraTakePicture").addEventListener 
+   ("click", cameraTakePicture); 
+
+   function cameraTakePicture() { 
+    navigator.camera.getPicture(onSuccess, onFail, {  
+       quality: 50, 
+       destinationType: Camera.DestinationType.DATA_URL 
+    });  
+    
+    function onSuccess(imageData) { 
+       var image = document.getElementById('myImage'); 
+       image.src = "data:image/jpeg;base64," + imageData; 
+    }  
+    
+    function onFail(message) { 
+       alert('Failed because: ' + message); 
+    } 
+ }
+
+ /*
+ Display the picture
+ */
+document.getElementById("cameraGetPicture").addEventListener("click", cameraGetPicture); 
+
+function cameraGetPicture() {
+    navigator.camera.getPicture(onSuccess, onFail, { quality: 50,
+       destinationType: Camera.DestinationType.DATA_URL,
+       sourceType: Camera.PictureSourceType.PHOTOLIBRARY
+    });
+ 
+    function onSuccess(imageURL) {
+       var image = document.getElementById('myImage');
+       image.src = imageURL;
+    }
+ 
+    function onFail(message) {
+       alert('Failed because: ' + message);
+    }
+ 
+ }
+
 var app = {
     // Application Constructor
     initialize: function() {
